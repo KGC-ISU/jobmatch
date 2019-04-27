@@ -60,6 +60,30 @@ app.post('/search', function(req, res){
     });
 });
 
+app.get('/dunfa', function(req, res) {
+    res.render('dunfa', {});
+});
+
+app.post('/dunfa', function(req, res) {
+    let word = req.body.char;
+    let url = "http://dunfa.gondr.net/char/result?server=all&name=" + word;
+
+    request(url, function(err, response, body) {
+        let list = [];
+        $ = cheerio.load(body);
+
+        let result = $(".scroll .chars .char_name");
+
+        for(let i = 0; i < result.length; i++) {
+            let chars = $(result[i]).text();
+            list.push(chars);
+        }
+
+        res.render('search', {msg : '검색 결과', list : list});
+    })
+    
+});
+
 let server = http.createServer(app);
 server.listen(app.get('port'), function () {
     console.log(`Express 엔진이 ${app.get('port')}에서 실행중`);
