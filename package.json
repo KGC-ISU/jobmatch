@@ -1,0 +1,26 @@
+{
+  "name": "jobmatch",
+  "version": "0.0.1",
+  "description": "취업맞춤반 학생을 위한 수업 강의",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KGC-ISU/jobmatch.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "KGC-ISU",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KGC-ISU/jobmatch/issues"
+  },
+  "homepage": "https://github.com/KGC-ISU/jobmatch#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.0"
+  }
+}
