@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<% include layout/head %>
+
+<body>
+    <% include layout/nav %>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-10 offset-1">
+                <div class="jumbotron">
+                    <h1><%= msg %></h1>
+                    <ul class="list-group">
+                        <% for(let i = 0; i < list.length; i++) { %>
+                            <li class="list-group-item"><%= list[i] %></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
