@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<% include layout/head %>
+
+<body>
+    <% include layout/nav %>
+    <div class="container">
+        <div class="row mt-4">
+            <h1>게시판</h1>
+            <div class="col-10 offset-1">
+                <table class="table striped">
+                    <tr>
+                        <th>순위</th>
+                        <th width="60%">노래제목</th>
+                    </tr>
+                    <tr>
+                        <% for(let i = 0; i < res.length; i++) { %>
+                            <th><%= res[i] %></th> 
+                        <% } %>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
