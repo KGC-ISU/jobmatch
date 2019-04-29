@@ -153,13 +153,13 @@ app.get('/board', function (req, res) {
 
     let keyword = "%%";
     if (req.query.key != undefined) {
-        let keyword = "%" + req.query.key + "%";
+        keyword = "%" + req.query.key + "%";
     }
-
 
     conn.query(sql, [keyword], function (err, result) {
 
         res.render('board', { list: result });
+
     });
 });
 
@@ -184,24 +184,49 @@ app.get('/melon', function (req, res) {
 
     request(url, function (err, response, body) {
 
+        let sql = "INSERT INTO melon (rank, musicName, singerName) VALUE(?, ?, ?)";
+
         let list2 = [];
         $ = cheerio.load(body);
 
-        for (let i = 1; i <= 5; i++) {
-            let result = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(2) div .rank").text();
+        for (let i = 1; i <= 100; i++) {
+            let result = $(".service_list_song > table > tbody tr:nth-child(" + i + ") .t_center .rank").text();
             let result2 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank01 a").text();
+            let result3 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank02 > a").text();
 
-            let list = [result, result2];
+            let list = [result, result2, result3];
+
+            conn.query(sql, list, function (err, result) { });
+
+            list2[i - 1] = list;
 
         }
 
+        console.log(list2.length);
 
+        res.render('melon', { res: list2, msg: "멜론 top100" });
 
-        
-
-        res.render('melon', { res: list });
     });
     // , .service_list_song > table > tbody tr:nth-child(3) td:nth-child(6), .service_list_song > table > tbody tr:nth-child(3) td:nth-child(8)
+});
+
+app.get('/melonChart', function(req, res) {
+    res.render('melonChart', {});
+});
+
+app.post('/melonChart', function(req, res) {
+
+    let key = req.body.word + "%";
+    console.log(key);
+
+    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY parserDate";
+
+    conn.query(sql, [key], function (err, result) {
+
+        res.render('melonChart', { list: result, msg : "멜론차트 그래프" });
+
+    });
+
 });
 
 let server = http.createServer(app);

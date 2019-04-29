@@ -6,18 +6,21 @@
     <% include layout/nav %>
     <div class="container">
         <div class="row mt-4">
-            <h1>게시판</h1>
+            <h1><%= msg %></h1>
             <div class="col-10 offset-1">
                 <table class="table striped">
                     <tr>
                         <th>순위</th>
                         <th width="60%">노래제목</th>
+                        <th>가수(그룹)</th>
                     </tr>
-                    <tr>
-                        <% for(let i = 0; i < res.length; i++) { %>
-                            <th><%= res[i] %></th> 
-                        <% } %>
-                    </tr>
+                    <% for(let i = 0; i < res.length; i++) { %>
+                        <tr>
+                            <% for(let j = 0; j < res[i].length; j++) { %>
+                                <th><%= res[i][j]  %></th>
+                            <% } %>
+                        </tr>
+                    <% } %>
                 </table>
             </div>
         </div>

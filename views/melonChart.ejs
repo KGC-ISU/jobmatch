@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<% include layout/head %>
+
+<body>
+    <% include layout/nav %>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-10 offset-1">
+                <form class="form-inline" method="post">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="word" class="sr-only">노래 차트 기록 검색</label>
+                        <input type="text" name="word" class="form-control" id="word" placeholder="노래 제목 입력">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">검색하기</button>
+                </form>
+            </div>
+            <div class="col-10 offset-1">
+                <table class="table striped">
+                    <tr>
+                        <th>순위</th>
+                        <th>노래제목</th>
+                        <th>가수</th>
+                        <th>기록된 날짜</th>
+                    </tr>
+                    <% if(typeof list != 'undefined') { %>
+                        <% for(let i = 0; i < list.length; i++) { %>
+                            <tr>
+                                <th><%= list[i].rank %></th>
+                                <th><%= list[i].musicName %></th>
+                                <th><%= list[i].singerName %></th>                            
+                                <th><%= list[i].parserDate %></th>
+                            </tr>
+                        <% } %>    
+                    <% } %>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
