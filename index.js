@@ -184,27 +184,28 @@ app.get('/melon', function (req, res) {
 
     request(url, function (err, response, body) {
 
-        let sql = "INSERT INTO melon (rank, musicName, singerName) VALUE(?, ?, ?)";
+        let sql = "INSERT INTO melon (rank, imgsrc, musicName, singerName, parserDate, parserTime) VALUE(?, ?, ?, ?, curdate(), curtime())";
 
-        let list2 = [];
+        let list3 = [];
         $ = cheerio.load(body);
 
         for (let i = 1; i <= 100; i++) {
             let result = $(".service_list_song > table > tbody tr:nth-child(" + i + ") .t_center .rank").text();
-            let result2 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank01 a").text();
-            let result3 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank02 > a").text();
+            let result2 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(4) a img").attr("src");
+            let result3 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank01 a").text();
+            let result4 = $(".service_list_song > table > tbody tr:nth-child(" + i + ") td:nth-child(6) .wrap .wrap_song_info .rank02 > a").text();
 
-            let list = [result, result2, result3];
+            let list = [result, result2, result3, result4];
 
-            conn.query(sql, list, function (err, result) { });
+            conn.query(sql, list, function (err, result) {});
 
-            list2[i - 1] = list;
+            let list2 = [result, result3, result4];
+
+            list3[i - 1] = list2;
 
         }
 
-        console.log(list2.length);
-
-        res.render('melon', { res: list2, msg: "멜론 top100" });
+        res.render('melon', { res: list3, msg: "멜론 top100" });
 
     });
     // , .service_list_song > table > tbody tr:nth-child(3) td:nth-child(6), .service_list_song > table > tbody tr:nth-child(3) td:nth-child(8)
@@ -219,7 +220,7 @@ app.post('/melonChart', function(req, res) {
     let key = req.body.word + "%";
     console.log(key);
 
-    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY parserDate";
+    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY rank, singerName, parserDate, parserTime";
 
     conn.query(sql, [key], function (err, result) {
 

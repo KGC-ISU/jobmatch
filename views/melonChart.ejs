@@ -18,18 +18,22 @@
             <div class="col-10 offset-1">
                 <table class="table striped">
                     <tr>
-                        <th>순위</th>
+                        <th>순위</th> 
+                        <th>엘범이미지</th>                  
                         <th>노래제목</th>
                         <th>가수</th>
                         <th>기록된 날짜</th>
+                        <th>기록된 시간</th>
                     </tr>
                     <% if(typeof list != 'undefined') { %>
                         <% for(let i = 0; i < list.length; i++) { %>
                             <tr>
                                 <th><%= list[i].rank %></th>
+                                <th><img src='<%= list[i].imgsrc %>' alt="asd"></th>                            
                                 <th><%= list[i].musicName %></th>
                                 <th><%= list[i].singerName %></th>                            
                                 <th><%= list[i].parserDate %></th>
+                                <th><%= list[i].parserTime %></th>
                             </tr>
                         <% } %>    
                     <% } %>
