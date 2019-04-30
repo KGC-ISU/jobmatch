@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<% include layout/head %>
+
+<body>
+    <% include layout/nav %>
+    <div class="container">
+        <div class="row mt-4">
+            <h1>네이버 API</h1>
+            <div class="col-10 offset-1">
+                <form class="form-inline" method="post">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="word" class="sr-only">검색어</label>
+                        <input type="text" name="word" class="form-control" id="word" placeholder="검색어 입력">
+                        <span> ---- </span>
+                        <input type="text" name="wordTag" class="form-control" id="word" placeholder="',' 로 나누어 태그 입력">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">검색하기</button>
+                </form>
+                <canvas id="myChart" width="600" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    new Chart
+        (document.getElementById("myChart"),
+            {
+                "type": "line",
+                "data": <%- JSON.stringify(g) %>, 
+                "options": {}
+            });
+</script>
+
+</html>
