@@ -8,7 +8,7 @@ const charset = require('charset');
 
 const router = express.Router();
 
-const dbinfo = require('./dbinfo');
+const dbinfo = require('./dbinfo.js');
 const Top20 = require('./mymodules/Top20');
 const Lunch = require('./mymodules/lunch');
 const datalab = require('./mymodules/NaverData');
@@ -179,7 +179,7 @@ router.post('/melonChart', function (req, res) {
     let key = req.body.word + "%";
     console.log(key);
 
-    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY rank, singerName, parserDate, parserTime";
+    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY singerName, parserDate, parserTime";
 
     conn.query(sql, [key], function (err, result) {
 
@@ -235,10 +235,24 @@ router.post("/datalab2", function (req, res) {
     console.log(key);
     let keywords = req.body.wordTag.split(",");
     console.log(keywords);
-    
-    let data = [
-        { "groupName": key, "keywords": keywords }
-    ]
+
+    let key2 = req.body.word2;
+    console.log(key2);
+    let keywords2 = req.body.wordTag2.split(",");
+    console.log(keywords2.length);
+
+    let data;
+
+    if (key2 == '' || keywords2[0] == '') {
+        data = [
+            { "groupName": key, "keywords": keywords }
+        ]
+    } else {
+        data = [
+            { "groupName": key, "keywords": keywords },
+            { "groupName": key2, "keywords": keywords2 }
+        ]
+    }
 
     datalab("2019-02-01", "2019-04-30", "week", data, function (result) {
         let colors = ["rgb(255, 192, 192)", "rgb(75, 192, 192)", "rgb(75, 192, 100)"];
