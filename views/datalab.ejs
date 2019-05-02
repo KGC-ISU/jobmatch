@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<% include layout/head %>
+
+<body>
+    <% include layout/nav %>
+    <div class="container">
+        <div class="row mt-4">
+            <h1>네이버 API</h1>
+            <div class="col-10 offset-1">
+                <form action="datalab2" method="post">
+                    <h4>주제1</h4>
+                    <input type="text" name="word" class="form-control" id="exampleInputEmail1" placeholder="Ex) 엠씨더맥스" required>
+                    <br>
+                    <h4>키워드1</h4>
+                    <input type="text" name="wordTag" class="form-control" id="exampleInputEmail1" placeholder="다중입력은 ',' 로 나누어주세요 - Ex) 어디에도,어김없이" required>
+                    <br>
+                    <h4>주제2</h4>
+                    <input type="text" name="word2" class="form-control" id="exampleInputEmail1" placeholder="Ex) 이수">
+                    <br>
+                    <h4>키워드2</h4>
+                    <input type="text" name="wordTag2" class="form-control" id="exampleInputEmail1" placeholder="다중입력은 ',' 로 나누어주세요 - Ex) 태양에녹여,린">
+                    <br>
+                    <button type="submit" class="btn btn-primary mb-2">검색하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

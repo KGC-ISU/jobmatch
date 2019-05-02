@@ -174,59 +174,47 @@ router.get('/melonChart', function (req, res) {
     res.render('melonChart', {});
 });
 
-router.post('/melonChart', function (req, res) {
+router.post('/melonChartView', function (req, res) {
 
-    let key = req.body.word + "%";
+    let key = req.body.word;
     console.log(key);
 
-    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY singerName, parserDate, parserTime";
+    let sql = "SELECT * FROM melon WHERE musicName LIKE ? ORDER BY parserDate";
 
     conn.query(sql, [key], function (err, result) {
 
-        res.render('melonChart', { list: result, msg: "멜론차트 그래프" });
+        let gData = { "labels": [], "datasets": [] };
+
+        let r = result;
+
+        for (let i = 0; i < r.length; i++) {
+            let date = r[i].parserDate;
+            let arr = date.split("-")
+            gData.labels.push(arr[1] + arr[2]);
+        }
+
+        let item = {
+            "label": r[0].musicName + " - " + r[0].singerName,
+            "borderColor": "rgb(255, 192, 192)",
+            "fill": false,
+            "lineTension": 0.2,
+            "data": []
+        };
+
+        for (let i = 0; i < r.length; i++) {
+            item.data.push(r[i].rank);
+        }
+
+        gData.datasets.push(item);
+
+        res.render('melonChartView', {g : gData});
 
     });
 
 });
-router.get("/datalab2", function (req, res) {
-    let data = [
-        { "groupName": "가수", "keywords": ["이수", "엠씨더맥스"] },
-        { "groupName": "걸그룹", "keywords": ["트와이스", "Twice", "아이즈원", "IzOne"] }
-    ]
 
-    datalab("2019-02-01", "2019-04-30", "week", data, function (result) {
-        let colors = ["rgb(255, 192, 192)", "rgb(75, 192, 192)", "rgb(75, 192, 100)"];
-
-        let gData = { "labels": [], "datasets": [] };
-        console.log(result);
-        let r = result.results;
-
-        for (let i = 0; i < r.length; i++) {
-            let item = {
-                "label": r[i].title,
-                "borderColor": colors[i],
-                "fill": false,
-                "lineTension": 0.2,
-                "data": []
-            };
-
-            for (let j = 0; j < r[i].data.length; j++) {
-                item.data.push(r[i].data[j].ratio);
-
-                if (i == 0) {
-                    let date = r[i].data[j].period;
-                    let arr = date.split("-");
-                    gData.labels.push(arr[1] + arr[2]);
-                }
-            }
-
-            gData.datasets.push(item);
-        }
-
-        console.log(gData);
-
-        res.render('datalab2', { g: gData });
-    });
+router.get("/datalab", function (req, res) {
+    res.render('datalab', {});
 });
 
 router.post("/datalab2", function (req, res) {
